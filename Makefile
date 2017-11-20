@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := tft_demo
+PROJECT_NAME := ESPDisplay
 
 EXTRA_CFLAGS += --save-temps
 

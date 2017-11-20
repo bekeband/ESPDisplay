@@ -1,4 +1,4 @@
-menu "TFT Display DEMO Configuration"
+menu "ESP Display Configuration"
 
 config SPIFFS_BASE_ADDR
     hex "SPIFFS Base address"
@@ -29,7 +29,8 @@ config EXAMPLE_DISPLAY_TYPE
     default 0 if EXAMPLE_DISPLAY_TYPE0
     default 1 if EXAMPLE_DISPLAY_TYPE1
     default 2 if EXAMPLE_DISPLAY_TYPE2
-
+    default 3 if EXAMPLE_DISPLAY_TYPE3
+    
     choice
         prompt "Select predefined display configuration"
         default EXAMPLE_DISPLAY_TYPE0
@@ -42,6 +43,9 @@ config EXAMPLE_DISPLAY_TYPE
             bool "ESP-WROVER-KIT Display"
         config EXAMPLE_DISPLAY_TYPE2
             bool "Adafruit TFT Feather display"
+        config EXAMPLE_DISPLAY_TYPE3
+            bool "ILI9341 display with nodeit ESP32S"
+            
     endchoice
 
 config EXAMPLE_USE_WIFI
@@ -54,14 +58,14 @@ config EXAMPLE_USE_WIFI
 config WIFI_SSID
     string "WiFi SSID"
    	depends on EXAMPLE_USE_WIFI
-    default "myssid"
+    default "TP-LINK_7A8CF0"
     help
 	SSID (network name) for the demo to connect to.
 
 config WIFI_PASSWORD
     string "WiFi Password"
    	depends on EXAMPLE_USE_WIFI
-    default "mypassword"
+    default "12345678"
     help
 	WiFi password (WPA or WPA2) for the demo to use.
 
