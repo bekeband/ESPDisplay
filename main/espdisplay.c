@@ -70,6 +70,10 @@ typedef struct {
     uint64_t timer_counter_value;
 } timer_event_t;
 
+static s_slide slide01;
+static s_slide slide02;
+static s_slide slide03;
+
 xQueueHandle timer_queue;
 static void _dispTime();
 
@@ -306,7 +310,7 @@ static void _checkTime()
 		time_last = time_now;
 		tm_info = localtime(&time_now);
 		sprintf(tmp_buff, "%04d-%02d-%02d %02d:%02d:%02d",
-				(tm_info->tm_year + 1900), tm_info->tm_mon, tm_info->tm_mday,
+				(tm_info->tm_year + 1900), tm_info->tm_mon + 1, tm_info->tm_mday,
 				tm_info->tm_hour, tm_info->tm_min, tm_info->tm_sec);
 		TFT_saveClipWin();
 		TFT_resetclipwin();
@@ -392,7 +396,7 @@ static void print_display()
 		TFT_clearStringRect(w, 30, buf);
 		TFT_print(buf, w, 30);
 
-	    refresh(38);
+//	    refresh(38);
 
 	}
 
@@ -823,8 +827,18 @@ void app_main()
     }
     disp_header("Display Header");
 
-    init_slide(10, 100, 216, 190, 10);
-    refresh(38);
+    init_slide(&slide01, 10, 100, 64, 190, 10);
+    set_slide_colors(&slide01, TFT_BLUE, TFT_BLACK, TFT_LIGHTGREY);
+    refresh(&slide01, 38);
+
+    init_slide(&slide02, 80, 100, 64, 190, 10);
+    set_slide_colors(&slide02, TFT_BLUE, TFT_BLACK, TFT_LIGHTGREY);
+    refresh(&slide02, 50);
+
+    init_slide(&slide03, 150, 100, 64, 190, 10);
+    set_slide_colors(&slide03, TFT_BLUE, TFT_BLACK, TFT_LIGHTGREY);
+    refresh(&slide03, 75);
+
 
     Wait(1000);
 
