@@ -48,13 +48,13 @@ struct list_index {
     struct list_index *next;
 };
 
-void list_init(struct list *list, int first_index);
-int list_add(struct list *list, void *item, int *item_index);
-int list_get(struct list *list, int index, void **item);
-int list_remove(struct list *list, int index, int destroy);
-int list_first(struct list *list);
-int list_next(struct list *list, int index);
-void list_destroy(struct list *list, int items);
+void spifflist_init(struct list *list, int first_index);
+int spifflist_add(struct list *list, void *item, int *item_index);
+int spifflist_get(struct list *list, int index, void **item);
+int spifflist_remove(struct list *list, int index, int destroy);
+int spifflist_first(struct list *list);
+int spifflist_next(struct list *list, int index);
+void spifflist_destroy(struct list *list, int items);
 
 #endif	/* LIST_H */
 

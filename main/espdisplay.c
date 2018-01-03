@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
+#include "nvs_flash.h"
+#include "bt.h"
 
 #include "freertos/queue.h"
 #include "soc/timer_group_struct.h"
@@ -29,6 +31,15 @@
 #include "tft.h"
 #include "spiffs_vfs.h"
 #include "slidebutton.h"
+#include "bluetooth.h"
+
+#define TEST_DEVICE_NAME            "ESP_LED_DRIVER_DEMO"
+#define TEST_MANUFACTURER_DATA_LEN  17
+
+#define PREPARE_BUF_MAX_SIZE 1024
+
+
+
 
 /*-------------------------------------------------------------*/
 /* ESPDisplay setup, and setting defined variable and constants. */
@@ -102,13 +113,14 @@ static int last_min = -1;
 static int last_sec = -1;
 
 static time_t time_now, time_last = 0;
-static const char *file_fonts[3] = {"/spiffs/fonts/DotMatrix_M.fon", "/spiffs/fonts/Ubuntu.fon", "/spiffs/fonts/Grotesk24x48.fon"};
+//static const char *file_fonts[3] = {"/spiffs/fonts/DotMatrix_M.fon", "/spiffs/fonts/Ubuntu.fon", "/spiffs/fonts/Grotesk24x48.fon"};
 static uint8_t disp_rot = PORTRAIT;
 
 static void print_display();
 
 #define GDEMO_TIME 1000
 #define GDEMO_INFO_TIME 5000
+
 
 //==================================================================================
 #ifdef CONFIG_EXAMPLE_USE_WIFI
@@ -686,15 +698,13 @@ void app_main()
 #endif
     // ====================================================================================================================
 
+    /* */
 
 //    vTaskDelay(500 / portTICK_RATE_MS);
 	printf("\r\n==============================\r\n");
     printf("TFT display DEMO, LoBo 10/2017\r\n");
 	printf("==============================\r\n");
     printf("Pins used: miso=%d, mosi=%d, sck=%d, cs=%d\r\n", PIN_NUM_MISO, PIN_NUM_MOSI, PIN_NUM_CLK, PIN_NUM_CS);
-#if USE_TOUCH
-    printf(" Touch CS: %d\r\n", PIN_NUM_TCS);
-#endif
 	printf("==============================\r\n\r\n");
 
 	// ==================================================================
@@ -714,6 +724,11 @@ void app_main()
 	printf("SPI: attached display device, speed=%u\r\n", spi_lobo_get_speed(spi));
 	printf("SPI: bus uses native pins: %s\r\n", spi_lobo_uses_native_pins(spi) ? "true" : "false");
 
+/* ------------ BLUETOOTH INITIALIZE --------------------------------*/
+
+	ESP_LOGE(tag, "------------ BLUETOOTH INITIALIZE --------------------------------\r\n");
+
+
 
 #if USE_TOUCH
 	// =====================================================
@@ -728,7 +743,7 @@ void app_main()
 	ret = spi_lobo_device_select(tsspi, 1);
     assert(ret==ESP_OK);
 	ret = spi_lobo_device_deselect(tsspi);
-    assert(ret==ESP_OK);
+    assert(ret==ESP_OK);namespace {
 
 	printf("SPI: attached TS device, speed=%u\r\n", spi_lobo_get_speed(tsspi));
 #endif
@@ -758,11 +773,7 @@ void app_main()
     timer_queue = xQueueCreate(10, sizeof(timer_event_t));
     example_tg0_timer_init(TIMER_0, TEST_WITH_RELOAD, TIMER_INTERVAL0_SEC);
 
-
-
-
 //    xTaskCreate(timer_example_evt_task, "timer_evt_task", 2048, NULL, 5, NULL);
-
 
 	font_rotate = 0;
 	text_wrap = 0;

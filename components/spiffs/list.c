@@ -36,7 +36,7 @@
 #include "list.h"
 #include "mutex.h"
 
-void list_init(struct list *list, int first_index) {
+void spifflist_init(struct list *list, int first_index) {
     // Create the mutex
     mtx_init(&list->mutex, NULL, NULL, 0);
     
@@ -50,7 +50,7 @@ void list_init(struct list *list, int first_index) {
     mtx_unlock(&list->mutex);    
 }
 
-int list_add(struct list *list, void *item, int *item_index) {
+int spifflist_add(struct list *list, void *item, int *item_index) {
     struct list_index *index = NULL;
     struct list_index *indexa = NULL;
     int grow = 0;
@@ -109,7 +109,7 @@ int list_add(struct list *list, void *item, int *item_index) {
     return 0;
 }
 
-int IRAM_ATTR list_get(struct list *list, int index, void **item) {
+int IRAM_ATTR spifflist_get(struct list *list, int index, void **item) {
     struct list_index *cindex = NULL;
     int iindex;
 
@@ -149,7 +149,7 @@ int IRAM_ATTR list_get(struct list *list, int index, void **item) {
     return 0;
 }
 
-int list_remove(struct list *list, int index, int destroy) {
+int spifflist_remove(struct list *list, int index, int destroy) {
     struct list_index *cindex = NULL;
     int iindex;
 
@@ -185,7 +185,7 @@ int list_remove(struct list *list, int index, int destroy) {
     return 0;
 }
 
-int IRAM_ATTR list_first(struct list *list) {
+int IRAM_ATTR spifflist_first(struct list *list) {
     int index;
     int res = -1;
     
@@ -203,7 +203,7 @@ int IRAM_ATTR list_first(struct list *list) {
     return res;
 }
 
-int IRAM_ATTR list_next(struct list *list, int index) {
+int IRAM_ATTR spifflist_next(struct list *list, int index) {
     int res = -1;
     int iindex;
     
@@ -231,7 +231,7 @@ int IRAM_ATTR list_next(struct list *list, int index) {
     return res;
 }
 
-void list_destroy(struct list *list, int items) {
+void spifflist_destroy(struct list *list, int items) {
     int index;
     
     mtx_lock(&list->mutex);

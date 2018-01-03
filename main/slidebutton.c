@@ -51,7 +51,7 @@ void static_draw(s_slide* slide)
 }
 
 void redraw(s_slide* slide)
-{	float prop;
+{	float prop = 1.0;
 	TFT_saveClipWin();
 	TFT_resetclipwin();
 
@@ -59,7 +59,7 @@ void redraw(s_slide* slide)
 	if (range > 0)
 	{
 		prop = ((slide->sldvalue - slide->minvalue) / range);
-	}
+	};
 
 	printf("DEBUG!! redraw command with prop = %f\r\n", prop);
 
